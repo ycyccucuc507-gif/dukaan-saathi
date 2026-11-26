@@ -37,7 +37,24 @@ class MainActivity:Activity() {
  private val kinds=listOf("مرمت کی پرچی","ایک سال کی گارنٹی","فروخت کی رسید")
  private val dateFmt=SimpleDateFormat("dd-MM-yyyy",Locale("en","PK"))
 
- override fun onCreate(savedInstanceState:Bundle?){super.onCreate(savedInstanceState);db=StoreDb(this);ui();loadSettings();askPermissions()}
+ 
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    try {
+        db = StoreDb(this)
+        ui()
+        loadSettings()
+        askPermissions()
+    } catch (e: Exception) {
+        android.util.Log.e("DukaanSaathi", "Startup error", e)
+        android.app.AlertDialog.Builder(this)
+            .setTitle("ایپ میں خرابی")
+            .setMessage(e.toString())
+            .setPositiveButton("ٹھیک ہے", null)
+            .show()
+    }
+}
+
  private fun ui(){
   val scroll=ScrollView(this); val root=LinearLayout(this).apply{orientation=1;setPadding(16,12,16,20);setBackgroundColor(Color.rgb(246,248,251))}
   scroll.addView(root)
